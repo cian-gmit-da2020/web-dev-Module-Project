@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <style type="text/css"></style>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="loginScript.js"></script>
+        <script src="dataVisScript.js"></script>
+
+    </head>
+    <body onload="checkStorage()">
+        <header id='header'>
+            <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
+            <a class="header" id="home"  href="home.html">Home</a>
+            <a class="header" id="page2" href="dom_page.html">Modules</a>
+            <a class="header" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" id="page3" href="data_vis.html">Charts</a>
+            <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
+
+            <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
+            onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
+   </header>
+
+   <div class="form-container">
+        <form style="display:none" id="loginFormID">
+            <h1>Login</h1>
+
+            <label  for="name"><b>Name</b></label>
+            <input id="entName" type="text" placeholder="Enter Name" name="name" required>
+
+            <label  for="email"><b>Email</b></label>
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" class="btn" onclick="loginForm()">Login</button>
+            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+        <div id="top">
+                <div id="top-box">
+                <h1>CIAN HOGAN</h1>
+                <h2>GMIT Higher Diploma <br>in Data Analytics 2021</h2>
+                <h2>Web Applications Development<br>Module Project</h2>
+                </div>
+            </div>
+        <div>
+            <select class="dropdown" name="Choose Chart" id="chart-choice">
+                <option class="dropdown-content" value="popUKI">Population UK and Ireland</option>
+                <option class="dropdown-content" value="pass">placeholder</option>
+            </select>
+            <select class="dropdown" name="Years" id="years">
+                <option class="dropdown-content" value="2020">2020</option>
+                <option class="dropdown-content" value="2016">2016</option>
+                <option class="dropdown-content" value="2011">2011</option>
+                <option class="dropdown-content" value="2006">2006</option>
+                <option class="dropdown-content" value="1996">1996</option>
+            </select>
+            <button onclick="genChart()">Generate Chart</button>
+        </div>
+
+        <div id="myDiv"></div>
+
+        <!--
+        <svg width="1000" height="1000" id="mysvg">
+
+        </svg>-->
+
+        <script>
+/*
+            var newData
+
+            function genChart(){
+
+                d3.csv("..\\csv-files\\dataBreach.csv").then(function(data){
+
+                    newData = data;
+
+                var xScale = d3.scaleTime()
+                    .domain([new Date(2008, 0, 1), new Date(2021, 0, 1)])
+                    .range([0, 1200]);
+
+                var xAxis = d3.axisBottom(xScale);
+       
+                
+                let svgContainer = d3.select("#myDiv").append("svg")
+                    .attr("width", 1200)
+                    .attr("height", 800);
+
+                let myCirle = svgContainer.selectAll("circle")
+                    .data(data);
+
+
+                myCirle.enter()
+                    .append("circle")
+                    .attr("cx", function(d){
+                        return xScale(d.date);
+                    })
+                    .attr("cy", 100)
+                    .attr("r", function(d){
+                        return d.breachSize/100;})
+                    .attr("fill", "red");
+
+                let svg = d3.select("#myDiv");
+
+                svg.append("g")
+                    .call(xAxis)
+                    .selectAll("text")
+                        .attr("transform", "translate: rotate(90)");
+
+
+                })}
+
+
+
+
+
+
+
+/*
+            d3.csv("..\\csv-files\\populations.csv").then(function(data){
+                console.log(data);
+            
+
+            let svgContainer = d3.select("#myDiv").append("svg")
+            .attr("width", 800)
+            .attr("height", 800);
+
+            let myRectangle = svgContainer.selectAll("rect")
+            .data(data);
+
+            myRectangle.enter()
+            .append("rect")
+            .attr("x", function(d, i){
+                return 50 + (i*85);
+            } )
+            .attr("y", 600)
+            .transition()
+            .duration(1000)
+            .attr("x", function(d, i){
+                return 50 + (i*85);
+            } )
+            .attr("y", function(d){
+                return 600 - (d.Population*10);
+            } )
+            .attr("width", 80)
+            .attr("height", function(d){
+                return d.Population*10;
+            })
+            .attr("fill", "red");
+
+
+            let myLabel = svgContainer.selectAll("text")
+            .data(data);
+
+            myLabel.enter()
+            .append("text")
+            .attr("x", function(d, i){
+                return 60 + (i*85);
+            } )
+            .attr("y", function(d){
+                return 615 - (d.Population*10);
+            })
+            .transition()
+            .duration(3000)
+            .attr("x", function(d, i){
+                return 60 + (i*85);
+            } )
+            .attr("y", function(d){
+                return 615 - (d.Population*10);
+            })
+            .text(function(d){
+                return d.Population+"m";
+            })
+            .attr("fill", "white");
+
+        })
+           
+
+
+
+            /*
+            var svgContainer = d3.select("#mysvg");
+            var myRectangle1 = svgContainer.append('rect');
+
+
+
+            myRectangle1.attr("x", 100)
+            .attr("y", 0)
+            .attr("height", 100)
+            .attr("width", 20)
+            .attr("fill", "red");
+
+            var myRectangle2 = svgContainer.append('rect');
+
+            myRectangle2.attr("x", 140)
+            .attr("y", 20)
+            .attr("height", 80)
+            .attr("width", 20)
+            .attr("fill", "green");
+
+*/
+
+
+            
+            
+        </script>
+    </body>
+</html>

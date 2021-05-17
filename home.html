@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cian Hogan | HOME</title>
+        <style>
+
+            #about-me{
+                color: white;
+            }
+
+            #about-me p {
+                font-size: 20px
+            }
+
+            h1#work-exp{
+                color: rgba(99,131,170,1);
+            }
+
+        </style>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="loginScript.js"></script>
+
+    </head>
+    <body onload="checkStorage()">
+        <header id='header'>
+
+            <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
+            <a class="header" id="home" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" href="home.html">Home</a>
+            <a class="header" id="page2" href="dom_page.html">Modules</a>
+            <a class="header" id="page3" href="data_vis.html">Charts</a>
+            <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
+
+            <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
+            onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
+   </header>
+
+   <div class="form-container">
+        <form style="display:none" id="loginFormID">
+            <h1>Login</h1>
+
+            <label  for="name"><b>Name</b></label>
+            <input id="entName" type="text" placeholder="Enter Name" name="name" required>
+
+            <label  for="email"><b>Email</b></label>
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" class="btn" onclick="loginForm()">Login</button>
+            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+            
+            <div id="top">
+                <div id="top-box">
+                <h1>CIAN HOGAN</h1>
+                <h2>GMIT Higher Diploma <br>in Data Analytics 2021</h2>
+                <h2>Web Applications Development<br>Module Project</h2>
+                </div>
+            </div>
+
+            <div class="row" id="about-me">
+                <div class="column"><img src="../images/logo1.webp" alt="Cian Hogan logo"></div>
+                <div class="column" style="background-color:rgba(99,131,170,1); width:490px; height:640px;"><h1>About Me</h1><br>
+                    <p>I am an ambitious, hardworking professional with strong experience in a wide variety of roles including customer service, IT support, administration and data entry.</p><br>
+                    <p>I am currently working for Wix.com as a member of their Customer Care team. I have over 5 years of previous experience in customer support roles accross a range of industries in Ireland and Australia</p><br>
+                    <p>I am currently completing a Higher Diploma in Computing and Data Analytics through GMIT. I have previously graduated with an Honours degree in Business studies from LIT</p><br>
+
+                    <a href="mailto:g00387860@gmit.ie" class="button">Contact Me</a></div>
+            </div>
+
+            <div>
+                <img src="../images/cartoon-head.webp" alt="cartoon headshot photo" style="padding-top: 50px;"> 
+                <h1 id="work-exp">PROFESSIONAL HISTORY</h1>
+                <div>
+                <div class="work-section">
+                    <h2>Customer Care Specialist,<br> Wix.com </h2>
+                    <h3>November 2020 - Present </h3>
+                    <ul><li>Provide Wix users with technical solutions via e-mail and phone.
+                        <li>Analyze user behavior, content suitability and relevance to determine their effect on user satisfaction.</ul>
+                </div>
+                <span id="more1" style="display: none">
+                    <div class="work-section">
+                        <h2>Customer Advisor,<br> AIB </h2>
+                        <h3>June 2019 - November 2021 </h3>
+                        <ul><li>Provide excellent customer service to a variety of customers across all of AIBs financial products and services.
+                            <li>Handle customer complaints in line with financial and payment services regulations and directives.
+                            <li>Manage cash services and security within one of the busiest branches in the region.
+                        </ul>
+                    </div>
+                    <div class="work-section">
+                        <h2>Partner Support Specialist,<br> UBER Technologies</h2>
+                        <h3>November 2016 - April 2019 </h3>
+                        <ul><li>Providing face-to-face, phone and app support.
+                            <li>Handling escalations and providing support and training for other support representatives.
+                        <li>Worked on several high-profile Uber events including the Melbourne F1 grand prix, Melbourne racing carnival and Australian Open tennis.</ul>
+                    </div>
+                </span>
+            </div>
+                <button onclick="showMore1()" class="showMoreBtn" id="moreBTN1">Show More</button>
+                
+            </div>
+
+            <div id="education"  style="background-color:RGBA(245,238,238,1)">
+                <img src="../images/cartoon-head.webp" alt="cartoon headsot photo" style="padding-top: 50px;"> 
+                <h1>EDUCATIONAL HISTORY</h1>
+                <div class="ed-section">
+                    <h2>Higher Diploma in Computing (Data Analytics)</h2>
+                    <h3>Jan 2020 - Dec 2021 </h3>
+                    <h4>Galway-Mayo Institute of Technology</h4>
+                    <a href="dom_page.html" class="button" style="font-size: 20px">View Modules</a>
+                </div style="padding-bottom: 50px;">
+                    <span id="more2" style="display: none">
+                        <div class="ed-section">
+                            <h2>Honours Degree in Business Studies</h2>
+                            <h3>Sep 2014 - June 2015</h3>
+                            <h4>Limerick Institute of Technology</h4>
+                        </div>
+                        <div class="ed-section">
+                            <h2>Ordinary Degree in Recreation and Leisure Management</h2>
+                            <h3>Sep 2009 - June 2012</h3>
+                            <h4>Cork Institute of Technology</h4>
+                        </div>
+                        </span>
+                        <button onclick="showMore2()" class="showMoreBtn" id="moreBTN2">Show More</button>
+                    </div>
+                    
+                    <div></div>
+                </div>
+            </div>
+        
+            <script type="text/javascript">
+
+                function showMore1(){
+                    var moreText = document.getElementById("more1");
+                    var btnText = document.getElementById("moreBTN1");
+
+                    if (moreText.style.display === "none"){
+                        moreText.style.display = "inline";
+                        btnText.innerHTML = "Show Less";
+                    }
+                    else {
+                        moreText.style.display = "none";
+                        btnText.innerHTML = "Show More";
+                    }
+
+                }
+                
+                function showMore2(){
+                    var moreText = document.getElementById("more2");
+                    var btnText = document.getElementById("moreBTN2");
+
+                    if (moreText.style.display === "none"){
+                        moreText.style.display = "inline";
+                        btnText.innerHTML = "Show Less";
+                    }
+                    else {
+                        moreText.style.display = "none";
+                        btnText.innerHTML = "Show More";
+                    }
+
+                }
+
+            </script>
+
+
+        
+    </body>
+</html>

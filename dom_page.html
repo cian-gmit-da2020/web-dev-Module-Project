@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <style type="text/css"></style>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="loginScript.js"></script>
+
+
+    </head>
+    <body onload="loadPageTwo()">
+
+        <header id='header'>
+           <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
+            <a class="header" id="home" href="home.html">Home</a>
+            <a class="header" id="page2" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" href="dom_page.html">Modules</a>
+            <a class="header" id="page3" href="data_vis.html">Charts</a>
+            <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
+
+            <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
+            onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
+   </header>
+
+   <div class="form-container">
+        <form style="display:none" id="loginFormID">
+            <h1>Login</h1>
+
+            <label  for="name"><b>Name</b></label>
+            <input id="entName" type="text" placeholder="Enter Name" name="name">
+
+            <label  for="email"><b>Email</b></label>
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email">
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw">
+
+            <button type="submit" class="btn" onclick="loginForm()">Login</button>
+            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+        <div id="top">
+                <div id="top-box">
+                <h1>CIAN HOGAN</h1>
+                <h2>GMIT Higher Diploma <br>in Data Analytics 2021</h2>
+                <h2>Web Applications Development<br>Module Project</h2>
+                </div>
+            </div>
+
+       
+
+        <h1>Data Analytics Course Modules</h1>
+        
+        <div><h1 id="title">Title</h1></div>
+
+        <div><img id="image1" src="" height="400"></div>
+
+        <div><h3>Description</h3>
+        <p id="description">Page description</p></div>
+
+        <div><button onclick="myFunction()">Next</button></div>
+        <div><button onclick="myFunction2()">Previous</button></div>
+        <div><p id="error"></p></div>
+
+        <script>
+
+            function loadPageTwo(){
+                checkStorage();
+                onloadData();
+            }
+
+
+
+            var count = 0
+
+            function onloadData(){
+                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+                
+                newData = data;
+                document.getElementById("title").innerHTML = newData[count].title;
+                document.getElementById("description").innerHTML = newData[count].description;
+                document.getElementById("image1").src = newData[count].image;
+            })
+            }
+            
+
+            function myFunction(){
+                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+                document.getElementById("error").innerHTML = "";
+                if (count == 9){
+                    document.getElementById("error").innerHTML = "All Courses Shown";
+                      
+                }
+                else{count = count+1;}
+
+                newData = data;
+                document.getElementById("title").innerHTML = newData[count].title;
+                document.getElementById("description").innerHTML = newData[count].description;
+                document.getElementById("image1").src = newData[count].image;
+                
+                })}
+            
+            function myFunction2(){
+                
+                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+
+                document.getElementById("error").innerHTML = "";
+                count = count-1;
+                if (count < 0){
+                    count = 0;
+                    document.getElementById("error").innerHTML = "Back to the start";}
+                
+                newData = data;
+                document.getElementById("title").innerHTML = newData[count].title;
+                document.getElementById("description").innerHTML = newData[count].description;
+                document.getElementById("image1").src = newData[count].image;
+                })}
+
+
+        </script>
+
+    </body>
+</html>
