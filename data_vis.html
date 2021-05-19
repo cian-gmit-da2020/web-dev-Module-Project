@@ -1,44 +1,53 @@
+<!--Cian Hogan, Web Development Project Home Page -->
+<!--Charts Page generates data visualizations  -->
+<!--Pulls content from CSV using d3js and also uses array variable--> 
+
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>Cian Hogan | Charts</title>
+        <!-- Links to external CSS and Javascript -->
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <style type="text/css"></style>
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="loginScript.js"></script>
         <script src="dataVisScript.js"></script>
-
     </head>
+    <!-- Checks if user logged in on load of page --> 
     <body onload="checkStorage()">
+        <!-- Header has 1 image, 3 links and login button -->
         <header id='header'>
             <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
             <a class="header" id="home"  href="home.html">Home</a>
             <a class="header" id="page2" href="dom_page.html">Modules</a>
+             <!-- BGC changed to highligh which page user is on -->
             <a class="header" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" id="page3" href="data_vis.html">Charts</a>
             <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
-
+        <!-- logUser button hidden until user logs in -->
             <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
             onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
    </header>
-
+<!-- Login form only shows if user clicks to login -->
+<!-- Calls funciton on submit, validates email and all fields required --> 
    <div class="form-container">
-        <form style="display:none" id="loginFormID">
+        <form style="display:none" id="loginFormID" onsubmit="loginForm()">
             <h1>Login</h1>
 
             <label  for="name"><b>Name</b></label>
-            <input id="entName" type="text" placeholder="Enter Name" name="name" required>
+            <input id="entName" type="text" placeholder="Enter Name" name="name" required="required">
 
             <label  for="email"><b>Email</b></label>
-            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required>
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required="required">
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" placeholder="Enter Password" name="psw" required="required">
 
-            <button type="submit" class="btn" onclick="loginForm()">Login</button>
-            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="submit" class="btn" style="width:75%">Login</button>
+            <!-- Close button closes form, does not submit info-->
+            <button type="button" class="btn cancel" style="width:75%" onclick="closeForm()">Close</button>
         </form>
     </div>
-
+    <!-- Top Box contains title and image-->
         <div id="top">
                 <div id="top-box">
                 <h1>CIAN HOGAN</h1>
@@ -46,165 +55,66 @@
                 <h2>Web Applications Development<br>Module Project</h2>
                 </div>
             </div>
+        <!-- drop down to allow user to select size, color and transition effect-->
+         <div class="mini-dropdown">
+            <h2>Size :<select class="mini-dropdown" id="sizeInput">
+                <option value=800>800</option><option value=400>400</option></select></h2>
+            <h2>Transition :<select class="mini-dropdown" id="transitionInput">
+                <option value=1000>On</option><option value=0>Off</option></select></h2>
+            <h2>Style :<select class="mini-dropdown" id="styleInput">
+                <option value="light">Normal</option><option value="dark">Dark</option></select></h2></div>
         <div>
-            <select class="dropdown" name="Choose Chart" id="chart-choice">
-                <option class="dropdown-content" value="popUKI">Population UK and Ireland</option>
-                <option class="dropdown-content" value="pass">placeholder</option>
+        <!-- User selects which chart to generate using dropdown-->
+        <!-- When changed calls chage funciton below-->
+            <select class="dropdown" name="Choose Chart" id="chart-choice" onchange='changeDropdown()'>
+                <option value="popUKI">Population UK and Ireland</option>
+                <option value="houseUKI">House Prices UK and Ireland</option>
             </select>
+        <!-- Years option shows by default hidden if 1st dropdown changes-->
+            <div id="pickYears">
             <select class="dropdown" name="Years" id="years">
-                <option class="dropdown-content" value="2020">2020</option>
-                <option class="dropdown-content" value="2016">2016</option>
-                <option class="dropdown-content" value="2011">2011</option>
-                <option class="dropdown-content" value="2006">2006</option>
-                <option class="dropdown-content" value="1996">1996</option>
+                <option value="2020">2020</option>
+                <option value="2016">2016</option>
+                <option value="2011">2011</option>
+                <option value="2006">2006</option>
+                <option value="1996">1996</option>
             </select>
-            <button onclick="genChart()">Generate Chart</button>
-        </div>
-
+            <!-- calls population chart function when clicked-->
+            <button onclick="populationChart()">Generate Chart</button></div>
+        <!-- Country choice hidden by default shows if user changes 1st dropdown-->
+       
+            <div style="display:none" id="countryDiv">
+            <select class="dropdown" id="pickCountry" name="Years" >
+                <option value="all">All</option>
+                <option value="Ireland">Ireland</option>
+                <option value="England">England</option>
+                <option value="Scotland">Scotland</option>
+                <option value="Wales">Wales</option>
+                <option value="Northern Ireland">Northern Ireland</option>
+            </select>
+        <!-- calls house price chart function when clicked-->
+            <button onclick="housePriceChart()">Generate Chart</button></div>
+        </div><br>
+        
+        <h2 id="chartTitleDiv" style="display: none"></h2>
+        
         <div id="myDiv"></div>
 
-        <!--
-        <svg width="1000" height="1000" id="mysvg">
-
-        </svg>-->
-
         <script>
-/*
-            var newData
-
-            function genChart(){
-
-                d3.csv("..\\csv-files\\dataBreach.csv").then(function(data){
-
-                    newData = data;
-
-                var xScale = d3.scaleTime()
-                    .domain([new Date(2008, 0, 1), new Date(2021, 0, 1)])
-                    .range([0, 1200]);
-
-                var xAxis = d3.axisBottom(xScale);
-       
-                
-                let svgContainer = d3.select("#myDiv").append("svg")
-                    .attr("width", 1200)
-                    .attr("height", 800);
-
-                let myCirle = svgContainer.selectAll("circle")
-                    .data(data);
-
-
-                myCirle.enter()
-                    .append("circle")
-                    .attr("cx", function(d){
-                        return xScale(d.date);
-                    })
-                    .attr("cy", 100)
-                    .attr("r", function(d){
-                        return d.breachSize/100;})
-                    .attr("fill", "red");
-
-                let svg = d3.select("#myDiv");
-
-                svg.append("g")
-                    .call(xAxis)
-                    .selectAll("text")
-                        .attr("transform", "translate: rotate(90)");
-
-
-                })}
-
-
-
-
-
-
-
-/*
-            d3.csv("..\\csv-files\\populations.csv").then(function(data){
-                console.log(data);
-            
-
-            let svgContainer = d3.select("#myDiv").append("svg")
-            .attr("width", 800)
-            .attr("height", 800);
-
-            let myRectangle = svgContainer.selectAll("rect")
-            .data(data);
-
-            myRectangle.enter()
-            .append("rect")
-            .attr("x", function(d, i){
-                return 50 + (i*85);
-            } )
-            .attr("y", 600)
-            .transition()
-            .duration(1000)
-            .attr("x", function(d, i){
-                return 50 + (i*85);
-            } )
-            .attr("y", function(d){
-                return 600 - (d.Population*10);
-            } )
-            .attr("width", 80)
-            .attr("height", function(d){
-                return d.Population*10;
-            })
-            .attr("fill", "red");
-
-
-            let myLabel = svgContainer.selectAll("text")
-            .data(data);
-
-            myLabel.enter()
-            .append("text")
-            .attr("x", function(d, i){
-                return 60 + (i*85);
-            } )
-            .attr("y", function(d){
-                return 615 - (d.Population*10);
-            })
-            .transition()
-            .duration(3000)
-            .attr("x", function(d, i){
-                return 60 + (i*85);
-            } )
-            .attr("y", function(d){
-                return 615 - (d.Population*10);
-            })
-            .text(function(d){
-                return d.Population+"m";
-            })
-            .attr("fill", "white");
-
-        })
-           
-
-
-
-            /*
-            var svgContainer = d3.select("#mysvg");
-            var myRectangle1 = svgContainer.append('rect');
-
-
-
-            myRectangle1.attr("x", 100)
-            .attr("y", 0)
-            .attr("height", 100)
-            .attr("width", 20)
-            .attr("fill", "red");
-
-            var myRectangle2 = svgContainer.append('rect');
-
-            myRectangle2.attr("x", 140)
-            .attr("y", 20)
-            .attr("height", 80)
-            .attr("width", 20)
-            .attr("fill", "green");
-
-*/
-
-
-            
+    // function to hide/display different dropdowns
+            function changeDropdown(){
+        // variable stores user input from first drop down
+                var chartChoice = document.getElementById("chart-choice").value;
+        // displays different 2nd dropdown depending on the input in the first
+                if (chartChoice == "houseUKI"){
+                document.getElementById("pickYears").style.display = 'none';
+                document.getElementById("countryDiv").style.display = 'inline';
+                }
+                else{
+                    document.getElementById("countryDiv").style.display = "none";
+                    document.getElementById("pickYears").style.display = "inline"
+                }
+            }            
             
         </script>
     </body>

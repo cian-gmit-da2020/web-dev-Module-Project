@@ -1,9 +1,11 @@
+<!--Cian Hogan, Web Development Project Home Page -->
+<!--Home Page portfolio page --> 
 <!DOCTYPE html>
 <html>
     <head>
         <title>Cian Hogan | HOME</title>
+        <!-- Page Specific CSS --> 
         <style>
-
             #about-me{
                 color: white;
             }
@@ -16,42 +18,50 @@
                 color: rgba(99,131,170,1);
             }
 
+            ul {
+                list-style-type: none;
+            }
+
         </style>
+        <!-- Links to external CSS and Javascript --> 
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="loginScript.js"></script>
 
     </head>
+    <!-- Checks if user logged in on load of page --> 
     <body onload="checkStorage()">
+    <!-- Header has 1 image, 3 links and login button --> 
         <header id='header'>
-
             <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
             <a class="header" id="home" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" href="home.html">Home</a>
             <a class="header" id="page2" href="dom_page.html">Modules</a>
             <a class="header" id="page3" href="data_vis.html">Charts</a>
             <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
-
+<!-- logUser button hidden until user logs in --> 
             <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
             onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
    </header>
-
+<!-- Login for only shows if user clicks to login -->
+<!-- Calls funciton on submit, validates email and all fields required -->  
    <div class="form-container">
-        <form style="display:none" id="loginFormID">
+        <form style="display:none" id="loginFormID" onsubmit="loginForm()">
             <h1>Login</h1>
 
             <label  for="name"><b>Name</b></label>
-            <input id="entName" type="text" placeholder="Enter Name" name="name" required>
+            <input id="entName" type="text" placeholder="Enter Name" name="name" required="required">
 
             <label  for="email"><b>Email</b></label>
-            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required>
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required="required">
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" placeholder="Enter Password" name="psw" required="required">
 
-            <button type="submit" class="btn" onclick="loginForm()">Login</button>
-            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="submit" class="btn" style="width:75%" >Login</button>
+<!-- Close button closes form, does not submit info--> 
+            <button type="button" class="btn cancel" style="width:75%" onclick="closeForm()">Close</button>
         </form>
     </div>
-            
+        <!-- Top Box contains title--> 
             <div id="top">
                 <div id="top-box">
                 <h1>CIAN HOGAN</h1>
@@ -59,18 +69,18 @@
                 <h2>Web Applications Development<br>Module Project</h2>
                 </div>
             </div>
-
+<!-- About me section split into 2 columns, image and about section --> 
             <div class="row" id="about-me">
                 <div class="column"><img src="../images/logo1.webp" alt="Cian Hogan logo"></div>
-                <div class="column" style="background-color:rgba(99,131,170,1); width:490px; height:640px;"><h1>About Me</h1><br>
+                <div class="column" style="background-color:rgba(99,131,170,1); width:45%; height:640px;"><h1>About Me</h1><br>
                     <p>I am an ambitious, hardworking professional with strong experience in a wide variety of roles including customer service, IT support, administration and data entry.</p><br>
                     <p>I am currently working for Wix.com as a member of their Customer Care team. I have over 5 years of previous experience in customer support roles accross a range of industries in Ireland and Australia</p><br>
                     <p>I am currently completing a Higher Diploma in Computing and Data Analytics through GMIT. I have previously graduated with an Honours degree in Business studies from LIT</p><br>
-
+                    <!-- link to email -->
                     <a href="mailto:g00387860@gmit.ie" class="button">Contact Me</a></div>
             </div>
 
-            <div>
+            <div> <!-- Prefessional section with show more button-->
                 <img src="../images/cartoon-head.webp" alt="cartoon headshot photo" style="padding-top: 50px;"> 
                 <h1 id="work-exp">PROFESSIONAL HISTORY</h1>
                 <div>
@@ -79,7 +89,7 @@
                     <h3>November 2020 - Present </h3>
                     <ul><li>Provide Wix users with technical solutions via e-mail and phone.
                         <li>Analyze user behavior, content suitability and relevance to determine their effect on user satisfaction.</ul>
-                </div>
+                </div> <!-- More section that can be shown and hidden-->
                 <span id="more1" style="display: none">
                     <div class="work-section">
                         <h2>Customer Advisor,<br> AIB </h2>
@@ -98,10 +108,11 @@
                     </div>
                 </span>
             </div>
+            <!-- Show more button-->
                 <button onclick="showMore1()" class="showMoreBtn" id="moreBTN1">Show More</button>
                 
             </div>
-
+            <!-- Education section with show more button-->
             <div id="education"  style="background-color:RGBA(245,238,238,1)">
                 <img src="../images/cartoon-head.webp" alt="cartoon headsot photo" style="padding-top: 50px;"> 
                 <h1>EDUCATIONAL HISTORY</h1>
@@ -111,6 +122,7 @@
                     <h4>Galway-Mayo Institute of Technology</h4>
                     <a href="dom_page.html" class="button" style="font-size: 20px">View Modules</a>
                 </div style="padding-bottom: 50px;">
+                <!-- More section that can be shown and hidden-->
                     <span id="more2" style="display: none">
                         <div class="ed-section">
                             <h2>Honours Degree in Business Studies</h2>
@@ -118,53 +130,53 @@
                             <h4>Limerick Institute of Technology</h4>
                         </div>
                         <div class="ed-section">
-                            <h2>Ordinary Degree in Recreation and Leisure Management</h2>
+                            <h2>Degree in Recreation and Leisure Management</h2>
                             <h3>Sep 2009 - June 2012</h3>
                             <h4>Cork Institute of Technology</h4>
                         </div>
-                        </span>
-                        <button onclick="showMore2()" class="showMoreBtn" id="moreBTN2">Show More</button>
-                    </div>
-                    
-                    <div></div>
+                    </span>
+                        <!-- Show more button-->
+                    <button onclick="showMore2()" class="showMoreBtn" id="moreBTN2">Show More</button>
                 </div>
-            </div>
-        
-            <script type="text/javascript">
-
-                function showMore1(){
-                    var moreText = document.getElementById("more1");
-                    var btnText = document.getElementById("moreBTN1");
-
-                    if (moreText.style.display === "none"){
-                        moreText.style.display = "inline";
-                        btnText.innerHTML = "Show Less";
-                    }
-                    else {
-                        moreText.style.display = "none";
-                        btnText.innerHTML = "Show More";
-                    }
-
-                }
                 
-                function showMore2(){
-                    var moreText = document.getElementById("more2");
-                    var btnText = document.getElementById("moreBTN2");
+        
+    <script type="text/javascript">
 
-                    if (moreText.style.display === "none"){
-                        moreText.style.display = "inline";
-                        btnText.innerHTML = "Show Less";
-                    }
-                    else {
-                        moreText.style.display = "none";
+    // Two show more funcitons, 1 for each section
+    // If the section is hidden it is displayed and button text changed
+    // if the section is shown already the funciton hides it and changes the button back
+
+    function showMore1(){
+        var moreText = document.getElementById("more1");
+        var btnText = document.getElementById("moreBTN1");
+
+        if (moreText.style.display === "none"){
+            moreText.style.display = "inline";
+            btnText.innerHTML = "Show Less";
+            }
+        else {
+            moreText.style.display = "none";
                         btnText.innerHTML = "Show More";
-                    }
-
                 }
 
-            </script>
+            }
+                
+    function showMore2(){
+        var moreText = document.getElementById("more2");
+        var btnText = document.getElementById("moreBTN2");
 
+        if (moreText.style.display === "none"){
+            moreText.style.display = "inline";
+            btnText.innerHTML = "Show Less";
+            }
+        else {
+            moreText.style.display = "none";
+            btnText.innerHTML = "Show More";
+            }
 
-        
+        }
+
+    </script>
+  
     </body>
 </html>

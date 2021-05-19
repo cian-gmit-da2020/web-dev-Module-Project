@@ -1,44 +1,59 @@
+<!--Cian Hogan, Web Development Project Home Page -->
+<!--Modules Page interacts with the Dom  -->
+<!--Pulls content from CSV using d3js -->  
+
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Cian Hogan | Modules </title>
+<!-- Links to external CSS and Javascript --> 
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <style type="text/css"></style>
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="loginScript.js"></script>
+        <!-- Page specific CSS --> 
+        <style type="text/css">
+            #title {
+                color: RGBA(99,131,170,1);
+            }
 
-
+        </style>
     </head>
-    <body onload="loadPageTwo()">
-
+    <!-- Checks if user logged in on load of page --> 
+    <body onload="loadPageContainer()">
+        <!-- Header has 1 image, 3 links and login button -->
         <header id='header'>
            <img src="../images/logo1.webp" alt="Cian Hogan logo" height="256">
             <a class="header" id="home" href="home.html">Home</a>
+            <!-- BGC changed to highligh which page user is on -->
             <a class="header" id="page2" style="color: RGBA(245,238,238,1);background-color: RGBA(99,131,170,1);" href="dom_page.html">Modules</a>
             <a class="header" id="page3" href="data_vis.html">Charts</a>
             <button class="header" id="login" class="open-button" onclick="openForm()">Login</button>
-
+    <!-- logUser button hidden until user logs in -->
             <button class="header" id="logUser" class="open-button" onmouseover="logOutHoverIn()" 
             onmouseout="logOutHoverOut()" onclick="logOutUser()"style="display:none"></button>
    </header>
-
+<!-- Login form only shows if user clicks to login -->
+<!-- Calls funciton on submit, validates email and all fields required --> 
    <div class="form-container">
-        <form style="display:none" id="loginFormID">
+        <form style="display:none" id="loginFormID" onsubmit="loginForm()">
             <h1>Login</h1>
 
             <label  for="name"><b>Name</b></label>
-            <input id="entName" type="text" placeholder="Enter Name" name="name">
+            <input id="entName" type="text" placeholder="Enter Name" name="name" required="required">
 
             <label  for="email"><b>Email</b></label>
-            <input id="entEmail" type="email" placeholder="Enter Email" name="email">
+            <input id="entEmail" type="email" placeholder="Enter Email" name="email" required="required">
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw">
+            <input type="password" placeholder="Enter Password" name="psw" required="required">
 
-            <button type="submit" class="btn" onclick="loginForm()">Login</button>
-            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+            <button type="submit" class="btn" style="width:75%">Login</button>
+            <!-- Close button closes form, does not submit info--> 
+            <button type="button" class="btn cancel" style="width:75%" onclick="closeForm()">Close</button>
         </form>
     </div>
-
+    <!-- Top Box contains title-->
         <div id="top">
                 <div id="top-box">
                 <h1>CIAN HOGAN</h1>
@@ -47,77 +62,108 @@
                 </div>
             </div>
 
-       
-
+    <div>
+        <!-- Content of page-->
         <h1>Data Analytics Course Modules</h1>
         
-        <div><h1 id="title">Title</h1></div>
+        <h1 id="title">Title</h1>
 
-        <div><img id="image1" src="" height="400"></div>
+        <img id="image1" src="" height="400">
 
-        <div><h3>Description</h3>
-        <p id="description">Page description</p></div>
+        <div id="divContent"><h3>Description</h3>
+            <p id="description" width="50%">Page description</p>
 
-        <div><button onclick="myFunction()">Next</button></div>
-        <div><button onclick="myFunction2()">Previous</button></div>
-        <div><p id="error"></p></div>
+            <h3>Module Grade</h3>
+            <p id="grade1">No Result Available</p></div>
+    </div>
+<!-- Error if we get to the end of the content -->
+    <p style="color:red;" id="error"></p>
+    <div>
+        <button onclick="previousFunction()">Previous</button>
+        <button onclick="nextFunction()">Next</button>
+    </div>
 
-        <script>
+    <script>
 
-            function loadPageTwo(){
-                checkStorage();
-                onloadData();
-            }
+var testData
 
+// Need two onload functions so a container function calls both
+        function loadPageContainer(){
+            checkStorage();
+            onloadData();
+        }
 
+// Global variable count used to store current position
+// starts at 0
+        var count = 0
 
-            var count = 0
+// When the page loads info is pulled from CSV using d3js
+// Info is displayed on page by manipulating the DOM
+        function onloadData(){
+            d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+                testData = data
+        // Changins inner html and img src using DOM
+                document.getElementById("title").innerHTML = data[count].title;
+                document.getElementById("description").innerHTML = data[count].description;
+                document.getElementById("image1").src = data[count].image;
 
-            function onloadData(){
-                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
-                
-                newData = data;
-                document.getElementById("title").innerHTML = newData[count].title;
-                document.getElementById("description").innerHTML = newData[count].description;
-                document.getElementById("image1").src = newData[count].image;
-            })
-            }
-            
-
-            function myFunction(){
-                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
-                document.getElementById("error").innerHTML = "";
-                if (count == 9){
-                    document.getElementById("error").innerHTML = "All Courses Shown";
-                      
+                var courseGrade = data[count].grade;
+        // Add grade result only if one exists
+                if (courseGrade !== ""){
+                    document.getElementById("grade1").innerHTML = courseGrade;
                 }
-                else{count = count+1;}
+            })
+        }
 
-                newData = data;
-                document.getElementById("title").innerHTML = newData[count].title;
-                document.getElementById("description").innerHTML = newData[count].description;
-                document.getElementById("image1").src = newData[count].image;
+// function for showing next page of data
+// Uses d3js to read CSV data increases count by 1 unless already at the end of data
+        function nextFunction(){
+            d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+                document.getElementById("error").innerHTML = "";
+                if (count == data.length-1){
+                    document.getElementById("error").innerHTML = "All Courses Shown";
+                } // notify user at the end of data
+                else{count = count+1;}
+        // set page content using the DOM with new count index
+                document.getElementById("title").innerHTML = data[count].title;
+                document.getElementById("description").innerHTML = data[count].description;
+                document.getElementById("image1").src = data[count].image;
+
+                var courseGrade = data[count].grade;
+
+                if (courseGrade !== ""){
+                    document.getElementById("grade1").innerHTML = courseGrade;
+                }
+                else { document.getElementById("grade1").innerHTML = "No Result Available"; }
+                    
+            })}
+
+// function for going back to previous page of data
+// Uses d3js to read CSV data, decreases count by 1 unless already at the start of data
+        
+        function previousFunction(){
                 
-                })}
-            
-            function myFunction2(){
-                
-                d3.csv("..\\csv-files\\modules.csv").then(function(data) {
+            d3.csv("..\\csv-files\\modules.csv").then(function(data) {
 
                 document.getElementById("error").innerHTML = "";
                 count = count-1;
+                 // notify user at the start of data
                 if (count < 0){
                     count = 0;
                     document.getElementById("error").innerHTML = "Back to the start";}
-                
-                newData = data;
-                document.getElementById("title").innerHTML = newData[count].title;
-                document.getElementById("description").innerHTML = newData[count].description;
-                document.getElementById("image1").src = newData[count].image;
+        // set page content using the DOM with new count index
+                document.getElementById("title").innerHTML = data[count].title;
+                document.getElementById("description").innerHTML = data[count].description;
+                document.getElementById("image1").src = data[count].image;
+
+                var courseGrade = data[count].grade;
+
+                if (courseGrade !== ""){
+                    document.getElementById("grade1").innerHTML = courseGrade;
+                }
+                else { document.getElementById("grade1").innerHTML = "No Result Available"; }
                 })}
 
-
         </script>
-
     </body>
 </html>
